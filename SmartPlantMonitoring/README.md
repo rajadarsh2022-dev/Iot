@@ -81,17 +81,29 @@ SmartPlantMonitoring/
 
 ### 2. Backend Deployment on Render
 1. Create a free account on Render.com
-2. Connect your GitHub repository
-3. Create a new Web Service
-4. Set build command: `npm install`
-5. Set start command: `npm start`
-6. Deploy the service
-7. Note the service URL (e.g., https://your-app.onrender.com)
+2. Push the `backend` folder to a GitHub repository
+3. Connect your GitHub repository to Render
+4. Create a new **Web Service**
+5. Select the repository and branch
+6. Configure the service:
+   - **Runtime**: Node
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+7. Deploy the service
+8. Note the service URL (e.g., https://your-app.onrender.com)
+9. Update the `serverName` in `esp8266_code/SmartPlantMonitoring.ino` with your Render URL
+10. Access the dashboard at your Render URL
 
-### 3. Frontend Deployment
-1. Update the API_URL in script.js with your Render backend URL
-2. Host the frontend files on any static hosting service (GitHub Pages, Netlify, etc.)
-3. Or serve them from the backend by placing them in a `public` folder
+### 3. Alternative: Deploy Entire Project
+If you want to deploy both backend and frontend together:
+1. Move all files from `backend/` to the root directory
+2. Push to GitHub and deploy as above
+3. The dashboard will be available at the root URL
+
+## API Endpoints
+- `GET /`: Serves the dashboard
+- `POST /update`: Receives sensor data from ESP8266
+- `GET /data`: Returns latest sensor data for the dashboard
 
 ## API Endpoints
 - `POST /update`: Receives sensor data from ESP8266

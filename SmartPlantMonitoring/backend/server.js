@@ -46,6 +46,11 @@ app.get('/data', (req, res) => {
 // Serve static files (for dashboard if needed)
 app.use(express.static('public'));
 
+// Serve dashboard at root
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
