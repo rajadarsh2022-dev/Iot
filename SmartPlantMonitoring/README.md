@@ -54,6 +54,12 @@ SmartPlantMonitoring/
 │   ├── index.html
 │   ├── styles.css
 │   └── script.js
+├── public/
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
+├── package.json
+├── server.js
 └── README.md
 ```
 
@@ -81,24 +87,18 @@ SmartPlantMonitoring/
 
 ### 2. Backend Deployment on Render
 1. Create a free account on Render.com
-2. Push the `backend` folder to a GitHub repository
+2. Push the entire repository to GitHub
 3. Connect your GitHub repository to Render
 4. Create a new **Web Service**
 5. Select the repository and branch
 6. Configure the service:
-   - **Runtime**: Node
+   - **Runtime**: Node (auto-detected)
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
 7. Deploy the service
 8. Note the service URL (e.g., https://your-app.onrender.com)
 9. Update the `serverName` in `esp8266_code/SmartPlantMonitoring.ino` with your Render URL
 10. Access the dashboard at your Render URL
-
-### 3. Alternative: Deploy Entire Project
-If you want to deploy both backend and frontend together:
-1. Move all files from `backend/` to the root directory
-2. Push to GitHub and deploy as above
-3. The dashboard will be available at the root URL
 
 ## API Endpoints
 - `GET /`: Serves the dashboard
@@ -162,11 +162,25 @@ If you want to deploy both backend and frontend together:
 - Implement API key authentication if needed
 - Avoid exposing sensitive WiFi credentials in code
 
-## Troubleshooting
-1. If LCD doesn't display: Check I2C address and wiring
-2. If sensors don't read: Verify power connections and pin assignments
-3. If WiFi doesn't connect: Check credentials and signal strength
-4. If server doesn't receive data: Verify URL and firewall settings
-5. If dashboard doesn't update: Check CORS settings and API URL
+## Troubleshooting Deployment
+
+### Common Render Deployment Issues
+1. **Build Fails**: Check Render logs for npm install errors. Ensure all dependencies are listed in package.json.
+2. **Start Fails**: Verify server.js has no syntax errors. Check that PORT environment variable is used.
+3. **Dashboard Not Loading**: Ensure public/ folder is committed and contains index.html, styles.css, script.js.
+4. **API Not Working**: Test /data endpoint returns JSON. Check CORS settings.
+5. **ESP8266 Can't Connect**: Verify server URL in Arduino code matches Render URL exactly.
+
+### Debugging Steps
+1. Check Render service logs in the dashboard
+2. Test locally: `npm install && npm start` (requires Node.js installed)
+3. Verify all files are committed to GitHub
+4. Ensure package.json specifies correct Node version (18.x)
+5. Check that server listens on process.env.PORT
+
+### If Still Failing
+- Try redeploying after pushing changes
+- Clear build cache in Render settings
+- Check GitHub repository has all required files in root
 
 This system provides a complete, production-ready IoT solution for plant monitoring with real-time alerts and cloud-based data visualization.
